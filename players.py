@@ -1,6 +1,10 @@
+from dataclasses import dataclass
+@dataclass
 class Player:
-    def __init__(self,player_id,player_name):
-        self.player_id=player_id
-        self.player_name = player_name
-        self.money = 100
+    player_id: int
+    player_name: str
+    money: int = 100
+
+
+
 

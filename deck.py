@@ -3,9 +3,8 @@ import random
 
 @dataclass
 class CardDeck:
-    suits: tuple[str, ...] = ('Hearts', 'Diamonds', 'Clubs', 'Spades')
-    ranks: tuple[str, ...] = ('2', '3', '4', '5', '6', '7', '8', '9', '10',
-                              'Jack', 'Queen', 'King', 'Ace')
+    suits: list[str] = field(default_factory=lambda: ['Hearts','Diamonds','Clubs','Spades'])    
+    ranks: list[str] =  field(default_factory=lambda: ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'])
     cards: list[tuple[str, str]] = field(default_factory=list)
 
     def create_deck(self):
@@ -15,6 +14,7 @@ class CardDeck:
     def shuffle_deck(self):
         random.shuffle(self.cards)
         return self.cards
-
-    def draw_card(self):
-        return self.cards.pop() if self.cards else None
+    @staticmethod
+    def draw_card(deck):
+        
+        return deck.pop() if deck else None
