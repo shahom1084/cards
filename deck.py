@@ -18,3 +18,5 @@ class CardDeck:
     def draw_card(deck):
         
         return deck.pop() if deck else None
+    def get_rank_value(self, rank: str) -> int:
+        return self.ranks.index(rank)

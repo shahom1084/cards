@@ -12,6 +12,8 @@ class game_state(Game):
         self.players = game.players
         self.max_no_of_players = game.max_no_of_players
         self.no_of_players = no_of_players
+        self.player_ids = list(self.players.keys())
+        self.turn_index = 0
 
     # @classmethod
     # def from_game(cls, game: Game, no_of_players):
@@ -45,8 +47,11 @@ class game_state(Game):
                     self.players[player_id]['cards'].append(CardDeck.draw_card(deck))
         
         return self.players
-                
-             
+        
+    def curr_turn(self):
+        current_player = self.player_ids[self.turn_index % len(self.player_ids)]
+        self.turn_index += 1
+        return current_player
 
 
             
