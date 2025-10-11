@@ -16,9 +16,9 @@ print(f"Detected Rank Value: {result_rank}")
 print(f"Expected Rank Value: {heirarchy.TRIO.value}")
 
 if result_rank == heirarchy.TRIO.value:
-    print("✅ PASSED: Correctly identified a Trio.")
+    print("PASS: Correctly identified a Trio.")
 else:
-    print("❌ FAILED: Did not identify a Trio.")
+    print("FAIL: Did not identify a Trio.")
 
 print("-" * 20)
 
@@ -32,8 +32,40 @@ print(f"Detected Rank Value: {result_rank_2}")
 print(f"Expected Rank Value: None")
 
 if result_rank_2 is None:
-    print("✅ PASSED: Correctly returned None for a non-Trio hand.")
+    print("PASS: Correctly returned None for a non-Trio hand.")
 else:
-    print("❌ FAILED: Incorrectly identified a rank.")
+    print("FAIL: Incorrectly identified a rank.")
+
+print("-" * 20)
+
+# --- Test Case 3: A hand that IS a Straight (Unpure Sequence) ---
+print("--- Testing for a Straight (Unpure Sequence) ---")
+straight_hand = [('8', 'Spades'), ('9', 'Hearts'), ('10', 'Clubs')]
+result_rank_3, _ = tp_test.evaluate_hands(straight_hand)
+
+print(f"Hand: {straight_hand}")
+print(f"Detected Rank Value: {result_rank_3}")
+print(f"Expected Rank Value: {heirarchy.STRAIGHT.value}")
+
+if result_rank_3 == heirarchy.STRAIGHT.value:
+    print("PASS: Correctly identified a Straight.")
+else:
+    print("FAIL: Did not identify a Straight.")
+
+print("-" * 20)
+
+# --- Test Case 5: A hand that IS a Flush (color) ---
+print("--- Testing for a  Flush (color) ---")
+flush_hand = [('4', 'Hearts'), ('6', 'Hearts'), ('9', 'Hearts')]
+result_rank_3, _ = tp_test.evaluate_hands(flush_hand)
+
+print(f"Hand: {flush_hand}")
+print(f"Detected Rank Value: {result_rank_3}")
+print(f"Expected Rank Value: {heirarchy.FLUSH.value}")
+
+if result_rank_3 == heirarchy.FLUSH.value:
+    print("PASS: Correctly identified a Flush.")
+else:
+    print("FAIL: Did not identify a Straight Flush.")
 
 print("-" * 20)
