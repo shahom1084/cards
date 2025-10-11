@@ -66,6 +66,40 @@ print(f"Expected Rank Value: {heirarchy.FLUSH.value}")
 if result_rank_3 == heirarchy.FLUSH.value:
     print("PASS: Correctly identified a Flush.")
 else:
-    print("FAIL: Did not identify a Straight Flush.")
+    print("FAIL: Did not identify Straight Flush.")
+
+print("-" * 20)
+# --- Test Case 6: A hand that IS a pair ---
+print("--- Testing for a  pair ---")
+pair_hand = [('4', 'Hearts'), ('4', 'Spades'), ('9', 'Hearts')]
+result_rank_2, _ = tp_test.evaluate_hands(pair_hand)
+
+print(f"Hand: {pair_hand}")
+print(f"Detected Rank Value: {result_rank_2}")
+print(f"Expected Rank Value: {heirarchy.PAIR.value}")
+
+if result_rank_2 == heirarchy.PAIR.value:
+    print("PASS: Correctly identified a PAIR.")
+else:
+    print("FAIL: Did not identify a pair.")
+
+print("-" * 20)
+
+
+# --- TDD Test for rules() method: No Ties ---
+print("--- TDD for rules(): No-tie scenario ---")
+# Player 2 has the best hand (Flush)
+players_no_tie = {
+    1: {'cards': [('Ace', 'H'), ('Ace', 'S'), ('2', 'C')]},
+    2: {'cards': [('5', 'D'), ('8', 'D'), ('King', 'D')]},
+    3: {'cards': [('7', 'H'), ('9', 'S'), ('Jack', 'C')]}
+}
+
+winner = tp_test.rules(players_no_tie)
+print(f"Winner: {winner}, Expected: 2")
+if winner == 2:
+    print("PASS: Correctly identified the winner in a no-tie scenario.")
+else:
+    print("FAIL: Did not identify the correct winner.")
 
 print("-" * 20)

@@ -32,6 +32,13 @@ class TeenPatti(game_state):
         #color 
         elif sorted_cards[0][1]==sorted_cards[1][1] and sorted_cards[1][1]==sorted_cards[2][1]:
             hand_rank = heirarchy.FLUSH.value #color
+        #pair 
+        elif sorted_cards[0][0]==sorted_cards[1][0]:
+            hand_rank = heirarchy.PAIR.value #PAIR
+        #high-card
+        else:
+            hand_rank = heirarchy.HIGH_CARD.value #high card
+
 
 
         return (hand_rank,sorted_cards)
@@ -50,9 +57,22 @@ class TeenPatti(game_state):
 
     # @staticmethod
     def rules(self,players):
-        curr_winner = next(iter(players))
+        winner = next(iter(players))
+        curr_game_state=[]
         for pid,data in players.items():
-            pass
+            cards = data['cards'] 
+            hand_rank,sorted_cards=self.evaluate_hands(cards)
+            curr_game_state.append((hand_rank,sorted_cards,pid))
+        curr_game_state.sort(key=lambda x:x[0],reverse=True)
+        #ALl three different  ranks 
+        if curr_game_state[0][0]!=curr_game_state[1][0]:
+            winner = curr_game_state[0][2]
+        return winner
+        
+
+    
+
+        
         
             
 
