@@ -19,6 +19,7 @@ class TeenPatti(game_state):
     #     return CardDeck.ranks.index(card[0])
     def evaluate_hands(self,cards):
         
+
         sorted_cards=sorted(cards, key=lambda card: CardDeck().get_rank_value(card[0]))
         
         hand_rank=None
@@ -33,7 +34,7 @@ class TeenPatti(game_state):
         elif sorted_cards[0][1]==sorted_cards[1][1] and sorted_cards[1][1]==sorted_cards[2][1]:
             hand_rank = heirarchy.FLUSH.value #color
         #pair 
-        elif sorted_cards[0][0]==sorted_cards[1][0]:
+        elif  sorted_cards[0][0] == sorted_cards[1][0] or sorted_cards[1][0] == sorted_cards[2][0]:
             hand_rank = heirarchy.PAIR.value #PAIR
         #high-card
         else:
@@ -67,6 +68,22 @@ class TeenPatti(game_state):
         #ALl three different  ranks 
         if curr_game_state[0][0]!=curr_game_state[1][0]:
             winner = curr_game_state[0][2]
+        # idhar se likhna hai for equal ranks
+        remain_players=list(range(len(curr_game_state)))
+        if curr_game_state[0][0]==curr_game_state[1][0]:
+            for i in range(2,-1,-1):
+                max_cards=[CardDeck().get_rank_value(curr_game_state[j][1][i][0]) for j in remain_players]
+                curr_winner = max(max_cards)
+                remain_players=[remain_players[i] for i,v in enumerate(max_cards) if v==curr_winner]
+                if len(remain_players)==1:
+                    winner_index=remain_players[0]
+                    winner = curr_game_state[winner_index][2]
+                    break
+        print(curr_game_state)
+            # if curr_game_state[0][0]>curr_game_state[1][0]:
+                
+            
+            
         return winner
         
 

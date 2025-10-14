@@ -15,4 +15,4 @@ g1= Game(1,"Teen Patti",3,{p1.player_id:{},p2.player_id:{},p3.player_id:{}})
 gs1= game_state(g1,no_of_players=3)
 
 hands=gs1.distribute_cards(shuffled_deck,g1.players)
-print(hands)    
+print(hands)

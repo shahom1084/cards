@@ -4,6 +4,7 @@ from deck import CardDeck
 from typing import Optional
 # @dataclass
 class game_state(Game):
+    #constructor with no of players
     def __init__(self, game: Game, no_of_players: int):
         # manually copy parent fields
         self.game_id = game.game_id
@@ -12,6 +13,7 @@ class game_state(Game):
         self.players = game.players
         self.max_no_of_players = game.max_no_of_players
         self.no_of_players = no_of_players
+        #in-game attributes
         self.player_ids = list(self.players.keys())
         self.turn_index = 0
 
@@ -26,14 +28,15 @@ class game_state(Game):
     #         max_no_of_players=game.max_no_of_players,
     #         no_of_players=no_of_players
     #     )
-
+    #fallback to max_no_of_players
     def set_no_of_players(self):
         if self.no_of_players is None or self.max_no_of_players is None:
                 return "No. of players required"
             
         if self.no_of_players is None:
             self.no_of_players=self.max_no_of_players
-
+    
+    
     def distribute_cards(self,deck,players):
         self.deck = deck
         self.set_no_of_players()
@@ -47,7 +50,7 @@ class game_state(Game):
                     self.players[player_id]['cards'].append(CardDeck.draw_card(deck))
         
         return self.players
-        
+    #returning curr_player_turn
     def curr_turn(self):
         current_player = self.player_ids[self.turn_index % len(self.player_ids)]
         self.turn_index += 1

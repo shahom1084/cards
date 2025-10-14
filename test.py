@@ -103,3 +103,21 @@ else:
     print("FAIL: Did not identify the correct winner.")
 
 print("-" * 20)
+
+# --- TDD Test for rules() method: Tie Scenario ---
+print("--- TDD for rules(): Tie scenario ---")
+# Player 1 and 2 have a pair, but Player 1 has a higher pair.
+players_tie = {
+    1: {'cards': [('Ace', 'H'), ('Ace', 'S'), ('2', 'C')]},
+    2: {'cards': [('King', 'D'), ('King', 'H'), ('3', 'S')]},
+    3: {'cards': [('7', 'H'), ('9', 'S'), ('9', 'C')]}
+}
+
+winner_tie = tp_test.rules(players_tie)
+print(f"Winner: {winner_tie}, Expected: 1")
+if winner_tie == 1:
+    print("PASS: Correctly identified the winner in a tie-scenario.")
+else:
+    print("FAIL: Did not identify the correct winner in a tie-scenario.")
+
+print("-" * 20)
