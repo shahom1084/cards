@@ -10,7 +10,22 @@ class heirarchy(Enum):
     HIGH_CARD = 1
 
 class TeenPatti(game_state):
+    def __init__(self, game, num_players,pot_value):
+        super().__init__(game, num_players)
+        self.pot_value = pot_value
+        for player_id in self.players:
+            self.players[player_id]['has_packed'] = False
+            self.players[player_id]['is_seen'] = False
+        print(self.players)
     # rank_order = {rank: i for i, rank in enumerate(CardDeck().ranks)}
+    def pack_player(self,player_id):
+        self.players[player_id]['has_packed'] = True
+        
+    def see_cards(self,player_id):
+        self.players[player_id]['has_packed'] = True
+    
+
+
     def curr_turn(self):
         curr_turn = super().curr_turn()
         return curr_turn
@@ -87,9 +102,34 @@ class TeenPatti(game_state):
         return winner
         
 
-    
+class TeenPattiMoves(TeenPatti):
+#    print(self.players)
+    def chaal(self,player_id,bet_amount):
+        self.player_id=player_id
+        self.bet_amount = self.pot_value * 2
+        if self.players[player_id]['is_seen'] == True:
+            self.players[player_id]['money'] -=  bet_amount
+        else:
+            return "You can't play chaal without seeing your cards."
+        
+    def blind(self,player_id,bet_amount):
+        self.player_id = player_id
+        self.bet_amount = self.pot_value
+        if self.players[player_id]['is_seen'] == True:
+            return "you can't play blind"
+        else:
+            self.players[player_id]['money'] -=  bet_amount
 
-        
-        
+    def pack(self,player_id):
+        self.player_id = player_id
+        if self.players[player_id]['has_packed'] == False:
+            self.players[player_id]['has_packed'] = True
+
+
+
+    def raise_pot(self,raise_amount):
+        self.pot_value+=raise_amount
+
+
             
 
