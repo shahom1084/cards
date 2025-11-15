@@ -60,16 +60,6 @@ class TeenPatti(game_state):
         return (hand_rank,sorted_cards)
 
 
-        
-        
-        
-            
-
-
-
-
-
-        
 
     # @staticmethod
     def rules(self,players):
@@ -94,11 +84,7 @@ class TeenPatti(game_state):
                     winner_index=remain_players[0]
                     winner = curr_game_state[winner_index][2]
                     break
-        print(curr_game_state)
-            # if curr_game_state[0][0]>curr_game_state[1][0]:
-                
-            
-            
+
         return winner
         
 
@@ -131,5 +117,4 @@ class TeenPattiMoves(TeenPatti):
         self.pot_value+=raise_amount
 
 
-            
 
