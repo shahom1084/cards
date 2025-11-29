@@ -19,7 +19,9 @@ class TestKachufulLogic(unittest.TestCase):
             players=player_dict
         )
         self.game = kachuFul(kachuful_game_setup, no_of_players=4)
-        self.deck = CardDeck().create_deck()
+        self.card_deck_obj = CardDeck()
+        self.deck = self.card_deck_obj.create_deck()
+        self.card_deck_obj.shuffle_deck()
 
     def test_initialization_4_players(self):
         """Tests that __init__ calculates the correct starting card count for 4 players."""
@@ -140,7 +142,9 @@ class TestKachuful6Players(unittest.TestCase):
         self.game = kachuFul(kachuful_game_setup, no_of_players=6)
         
         # 4. Create a fresh, ordered deck for predictable testing
-        self.deck = CardDeck().create_deck()
+        self.card_deck_obj = CardDeck()
+        self.deck = self.card_deck_obj.create_deck()
+        self.card_deck_obj.shuffle_deck()
 
     def test_initialization_6_players(self):
         """
@@ -181,6 +185,74 @@ class TestKachuful6Players(unittest.TestCase):
         # 3. Test remaining cards in the deck. 52 - (6 * 8) = 4
         self.assertEqual(len(self.deck), 4)
         print("OK")
+
+
+class TestKachuful5Players(unittest.TestCase):
+
+    def setUp(self):
+        """Set up a game with 5 players."""
+        players = [Player(i, f"Player {i}") for i in range(1, 6)]
+        player_dict = {p.player_id: {'player_name': p.player_name} for p in players}
+
+        kachuful_game_setup = Game(
+            game_id=2,
+            game_name="Kachuful-5p",
+            no_of_cards=0,
+            players=player_dict
+        )
+        self.game = kachuFul(kachuful_game_setup, no_of_players=5)
+        self.card_deck_obj = CardDeck()
+        self.deck = self.card_deck_obj.create_deck()
+        self.card_deck_obj.shuffle_deck()
+
+    def test_initialization_5_players(self):
+        """Tests that __init__ calculates the correct starting card count for 5 players."""
+        print("\n--- Testing __init__ (5 Players) ---")
+        self.assertEqual(self.game.no_of_players, 5)
+        # For 5 players, 52 // 5 = 10
+        self.assertEqual(self.game.start_cards, 10)
+        self.assertEqual(self.game.current_cards, 10)
+        print("OK")
+
+    @patch('builtins.input', side_effect=['3', '2', '1', '2', '1'])
+    def test_game_simulation_5_players(self, mock_input):
+        """Simulates a round of kachuful with 5 players, printing details."""
+        print("\n--- Simulating 1st Round of Kachuful (5 Players) ---")
+
+        # Round 1: 10 cards each
+        self.game.prepare_round(self.deck)
+        
+        print("--- Card Distribution ---")
+        for player_id in self.game.player_ids:
+            player_hand = self.game.players[player_id]['cards']
+            print(f"Player {player_id}'s hand: {player_hand}")
+        
+        remaining_cards = self.deck
+        print(f"Cards remaining in deck: {remaining_cards}\n")
+
+        self.assertEqual(len(self.game.players[1]['cards']), 10)
+        self.assertEqual(len(self.deck), 2) # 52 - (5 * 10) = 2
+
+        # Make calls
+        self.game.calls()
+
+        print("\n--- Player Calls Made ---")
+        total_hands_called = 0
+        for player_id in self.game.player_ids:
+            called_hands = self.game.players[player_id]['no_of_hands']
+            total_hands_called += called_hands
+            print(f"Player {player_id} called: {called_hands}")
+        
+        print(f"\nTotal hands called: {total_hands_called}")
+        # Dealer is Player 1 (index 0). Call order: 2, 3, 4, 5, 1
+        # Calls: 3, 2, 1, 2. Total = 8.
+        # Forbidden for dealer is 10 - 8 = 2. Mock is '1'.
+        self.assertEqual(self.game.players[2]['no_of_hands'], 3)
+        self.assertEqual(self.game.players[3]['no_of_hands'], 2)
+        self.assertEqual(self.game.players[4]['no_of_hands'], 1)
+        self.assertEqual(self.game.players[5]['no_of_hands'], 2)
+        self.assertEqual(self.game.players[1]['no_of_hands'], 1)
+        print("\n--- Simulation Step Complete ---")
 
 if __name__ == '__main__':
     unittest.main()

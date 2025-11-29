@@ -75,6 +75,23 @@ class kachuFul(game_state):
         for player_id in self.player_ids:
             print(f"Player {player_id}: {self.players[player_id]['no_of_hands']} hands")
             
+    #helper function
+    def is_valid_move(self,leading_suit,player_id,card):
+        if leading_suit is None:
+            return True
+
+        hand =  self.players[player_id]['cards']
+        card_suit = card[1]
+
+        has_leading_suit_in_hand = any(c[1] == leading_suit for c in hand)
+        if has_leading_suit_in_hand:
+            if leading_suit==card_suit:
+                return True
+            else:
+                return False
+        else:
+            return True
+        
 
 
 
